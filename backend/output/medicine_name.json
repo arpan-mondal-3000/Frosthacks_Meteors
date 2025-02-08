@@ -1,0 +1,41 @@
+{
+  "medicines": [
+    {
+      "name": "Betaloc 100mg",
+      "dosage": "100mg",
+      "frequency": "Twice a day (Every 12 hours)",
+      "duration": "As needed",
+      "route": "Oral",
+      "purpose": "Hypertension management",
+      "special_instructions": "Take with food, avoid alcohol"
+    },
+    {
+      "name": "Dorzolamidum 10mg",
+      "dosage": "10mg",
+      "frequency": "Twice a day (Every 12 hours)",
+      "duration": "As needed",
+      "route": "Oral",
+      "purpose": "Glaucoma treatment",
+      "special_instructions": "Take with food, avoid alcohol"
+    },
+    {
+      "name": "Cimetidine 50mg",
+      "dosage": "50mg",
+      "frequency": "Three times a day (Every 8 hours)",
+      "duration": "As needed",
+      "route": "Oral",
+      "purpose": "Heartburn and acid reflux",
+      "special_instructions": "Take with food, avoid alcohol"
+    },
+    {
+      "name": "Oxprelol 50mg",
+      "dosage": "50mg",
+      "frequency": "Once a day",
+      "duration": "As needed",
+      "route": "Oral",
+      "purpose": "Pain relief",
+      "special_instructions": "Take with food, avoid alcohol"
+    }
+  ],
+  "general_instructions": "Drink plenty of water, avoid operating heavy machinery, complete the full course of treatment"
+}

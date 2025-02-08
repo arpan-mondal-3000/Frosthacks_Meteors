@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 // API
-import { get_medicine_names } from "../api";
+import { get_medicine_names, send_number } from "../api";
 
 // const demoData = {
 //   data: {
@@ -56,15 +56,21 @@ function Scan() {
   const [image, setImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: any) => {
     const file = e.target.files?.[0];
     if (file) {
       setImage(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    if (e.target.textContent === "Ok" && phoneNumber !== "") {
+      console.log("Submitting phone number: ", phoneNumber);
+      await send_number(phoneNumber);
+    }
     console.log("Submitting Image");
     console.log(image);
     setIsLoading(true);
@@ -145,46 +151,95 @@ function Scan() {
               </div>
             </>
           ) : (
-            <div className="px-6">
-              <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-xl flex flex-col items-center gap-3">
-                {/* Image Upload Section */}
-                <h2 className="text-2xl font-bold text-gray-800 text-center">
-                  Upload Your Prescription
-                </h2>
-                <input
-                  onChange={handleFileChange}
-                  type="file"
-                  name="image"
-                  id="image"
-                  accept="image/*"
-                  className="border-2 border-gray-300 my-6 px-4 py-2 rounded-lg w-full text-gray-600"
-                />
-                {image && (
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="h-40 object-cover rounded-lg shadow-lg"
-                  />
-                )}
-                {/* Capture Button */}
-                <button
-                  className="bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full"
-                  onClick={() => setCapture(true)}
-                >
-                  Capture Instead
-                </button>
-                <button
-                  className="bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full disabled:bg-green-300"
-                  disabled={image ? false : true}
-                  onClick={handleSubmit}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    Scan with AI
-                    <SendHorizontal strokeWidth={2.5} />
+            <div>
+              {showPopup ? (
+                <div className="px-6">
+                  <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-xl flex flex-col items-center gap-3">
+                    <button
+                      className="bg-gray-600 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300"
+                      onClick={() => setShowPopup(false)}
+                    >
+                      <ArrowLeft />
+                    </button>
+                    <p className="font-semibold text-2xl text-center">
+                      Provide your phone number to get notified to take
+                      medicines for this prescription
+                    </p>
+                    {image && (
+                      <img
+                        src={image}
+                        alt="Preview"
+                        className="h-40 object-cover rounded-lg shadow-lg"
+                      />
+                    )}
+                    <input
+                      type="number"
+                      placeholder="Your phone number"
+                      className="border-2 border-gray-400 px-4 py-2 w-full rounded"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                    <div className="flex gap-6 justify-center items-center">
+                      <button
+                        className="bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full disabled:bg-green-300"
+                        onClick={handleSubmit}
+                        disabled={phoneNumber === ""}
+                      >
+                        Ok
+                      </button>
+                      <button
+                        className="bg-red-600 hover:bg-red-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full text-nowrap"
+                        onClick={handleSubmit}
+                      >
+                        Proceed anyway
+                      </button>
+                    </div>
+                    <div className="text-red-500">{errorMessage}</div>
                   </div>
-                </button>
-                <div className="text-red-500">{errorMessage}</div>
-              </div>
+                </div>
+              ) : (
+                <div className="px-6">
+                  <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-xl flex flex-col items-center gap-3">
+                    {/* Image Upload Section */}
+                    <h2 className="text-2xl font-bold text-gray-800 text-center">
+                      Upload Your Prescription
+                    </h2>
+                    <input
+                      onChange={handleFileChange}
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/*"
+                      className="border-2 border-gray-300 my-6 px-4 py-2 rounded-lg w-full text-gray-600"
+                    />
+                    {image && (
+                      <img
+                        src={image}
+                        alt="Preview"
+                        className="h-40 object-cover rounded-lg shadow-lg"
+                      />
+                    )}
+                    {/* Capture Button */}
+                    <button
+                      className="bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full"
+                      onClick={() => setCapture(true)}
+                    >
+                      Capture Instead
+                    </button>
+                    <button
+                      className="bg-green-600 hover:bg-green-700 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 w-full disabled:bg-green-300"
+                      disabled={image ? false : true}
+                      onClick={() => setShowPopup(true)}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        Scan with AI
+                        <SendHorizontal strokeWidth={2.5} />
+                      </div>
+                    </button>
+                    <div className="text-red-500">{errorMessage}</div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

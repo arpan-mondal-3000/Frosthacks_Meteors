@@ -9,7 +9,6 @@ import PrescriptionPDF from "../components/PrescriptionPdf";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn, setUserDetails, userDetails } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +17,7 @@ function Profile() {
 
   const handleNavigateResult = (index: number) => {
     navigate("/result", { state: { data: historyData[index].site_content } });
-  }
+  };
 
   const handleLoginSuccess = (response: CredentialResponse) => {
     console.log("Google login successful: ", response);
@@ -128,7 +127,6 @@ function Profile() {
 
             {/* Hoverable Edit Button */}
             <button
-
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all"
               onClick={handleLogout}
             >
@@ -148,8 +146,9 @@ function Profile() {
                 <button
                   key={index}
                   onClick={() => {
-                    handleNavigateResult(index)
-                  }}>
+                    handleNavigateResult(index);
+                  }}
+                >
                   <div
                     key={index}
                     className="bg-white p-6 rounded-2xl shadow-lg flex items-center transition-all duration-300 hover:shadow-xl"
@@ -174,12 +173,16 @@ function Profile() {
                     {/* Download Button */}
                     <div className="mt-4">
                       <PDFDownloadLink
-                        document={<PrescriptionPDF data={medicine.site_content} />}
+                        document={
+                          <PrescriptionPDF data={medicine.site_content} />
+                        }
                         fileName={`prescription-${index + 1}.pdf`}
                         className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
                       >
                         {({ loading }) =>
-                          loading ? "Generating PDF..." : (
+                          loading ? (
+                            "Generating PDF..."
+                          ) : (
                             <>
                               <Download className="w-5 h-5" />
                             </>
@@ -191,7 +194,6 @@ function Profile() {
                 </button>
               ))}
             </div>
-
           ) : (
             <div className="text-center">You have not scanned anything yet</div>
           )}

@@ -2,9 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PrescriptionPDF from "../components/PrescriptionPdf";
 import { useState, useEffect } from "react";
-import { get_medicine_links, get_location } from "../api";
+import { get_medicine_links, get_location, fetchMedicineDetails } from "../api";
 import { InfinitySpin } from "react-loader-spinner";
 import { MapPin, MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { log } from "console";
 function toSentenceCase(str: string) {
   if (!str) return ""; // Handle empty strings
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -177,12 +179,15 @@ const demoLocationdata = {
 };
 
 const Result = () => {
+  const [loading, setLoading] = useState(false);
   const [isLoadingLinks, setIsLoadingLinks] = useState(false);
   const [isLoadingLocations, setIsLoadingLocations] = useState(false);
   const [linkErrorMessage, setLinkErrorMessage] = useState("");
   const [locationErrorMessage, setLocationErrorMessage] = useState("");
   const [nearbyLocations, setNearbyLocations] = useState([]);
   const location = useLocation();
+  const [usageDropdown, setUsageDropdown] = useState(false);
+
   const [medicineData, setMedicineData] = useState<any>({});
   const { data } = location.state || {};
 
@@ -197,6 +202,53 @@ const Result = () => {
   useEffect(() => {
     setMedicineData(data);
   }, [data]);
+
+
+
+  const demoData = {
+    "detail": {
+      "active_ingredient": "Active ingredient Paracetamol 160 mg",
+      "definition": [
+        "L-Oral PARACETAMOL Syrup Paracetamol METHYLPARABEN PROPYLPARABEN POTASSIUM SORBATE CITRIC ACID MONOHYDRATE SORBITOL PROPYLENE GLYCOL SUCRALOSE POVIDONE K30 GLYCERIN FD&C RED NO. 40 D&C RED NO. 33 WATER ACETAMINOPHEN ACETAMINOPHEN"
+      ],
+      "medicine_name": "paracetamol",
+      "side_effects": "Not Available",
+      "usage": "USES Temporarily relieves minor aches and pains due to: • The common cold • Flu • Headache • Sore throat • Toothache • Temporarily reduces fever",
+      "warnings": "WARNINGS Liver warning: This product contains acetaminophen. Severe liver damage may occur if your child takes: • More than 5 doses in 24 hours, which is the maximum daily amount • With other drugs containing acetaminophen Allergy alert: acetaminophen may cause severe skin reactions. Symptoms may include: • Skin reddening • Blisters • Rash If a skin reaction occurs, stop use and seek medical help right away. Sore throat warning: If sore throat is severe, persists for more than 2 days, is accompanied or followed by fever, headache, rash, nausea, or vomiting, consult a doctor promptly. Do not use • With any other product containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist • If your child is allergic to acetaminophen or any of the inactive ingredients in this product Ask a doctor before use if your child has liver disease Ask a doctor or pharmacist before use if your child is taking the blood thinning drug warfarin When using this product, do not exceed recommended dose (see overdose warning) Stop use and ask a doctor if • Pain gets worse or last for more than 5 days • Fever gets worse or last for more than 3 days • New symptoms occur • Redness or swelling is present These could be signs of a serious condition. Keep out of the reach of children. Overdose warning: Taking more than the recommended dose (overdose) may cause liver damage. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away. Quick medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
+    }
+  }
+  const handleUsage = async (e: any) => {
+    if (!usageDropdown) {
+      setLoading(true);
+      try {
+        setUsageDropdown(true);
+        const usageData = await fetchMedicineDetails(e.target.name);
+        setLoading(false);
+        console.log("Usage details: ", usageData);
+        // setUsageData(usageData);
+        setMedicineData((prevData: any) => {
+          const updatedMedicines = [...prevData.medicines]; // Create a new array
+          updatedMedicines[Number(e.target.id)] = {
+            ...updatedMedicines[Number(e.target.id)], // Copy existing medicine data
+            usage: usageData.usage, // Update only websites
+          };
+          return {
+            ...prevData,
+            medicines: updatedMedicines,
+          };
+        });
+      } catch (err) {
+        console.error("Medicine usage cannot be fetched: ", err);
+        setLocationErrorMessage("Medicine usage could not be fetched!");
+        setLoading(false);
+      }
+    } else {
+      setUsageDropdown(false);
+
+    }
+
+  }
+
 
   const handleMedicineLinks = async (e: any) => {
     if (e.target.id && e.target.name) {
@@ -298,9 +350,6 @@ const Result = () => {
               <strong>Route:</strong> {medicine.route}
             </p>
             <p className="text-gray-700">
-              <strong>Usage:</strong> {medicine.detail}
-            </p>
-            <p className="text-gray-700">
               <strong>Instructions:</strong> {medicine.special_instructions}
             </p>
 
@@ -369,10 +418,35 @@ const Result = () => {
                 )}
               </div>
             )}
+            {/* Usage Button */}
+            <button
+              className="px-4 py-2 ml-5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md transition duration-300 ease-in-out"
+              name={medicine.name}
+              id={index.toString()}
+              onClick={handleUsage}
+              disabled={loading} // Disable button while loading
+            >
+              {loading ? "Loading..." : "Usage"}
+            </button>
+
+            {usageDropdown && Object.keys(medicine).includes("usage") && (
+              <div className="bg-white p-5 rounded-2xl shadow-lg text-gray-900 text-center font-medium mt-4 border border-gray-200">
+                <strong className="text-blue-600 text-lg underline decoration-dotted">
+                  Medicine Usage
+                </strong>
+                {loading ? (
+                  <p className="mt-2 text-gray-500 italic animate-pulse">Fetching details...</p>
+                ) : (
+                  <p className="mt-2 text-gray-700 text-sm leading-relaxed">
+                    {medicine?.usage}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
-      <div className="absolute bottom-15 right-10 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition">
+      <div className="fixed bottom-20 right-10 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition">
         <Link to="/chatAI">
           <MessageCircle size={30} />
         </Link>
@@ -425,7 +499,6 @@ const Result = () => {
                 </a>
               </div>
             ))}
-
           </div>
         )
       )}
