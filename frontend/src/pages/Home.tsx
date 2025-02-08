@@ -4,6 +4,7 @@ import { useState } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { MessageCircle } from "lucide-react";
 
 function Home() {
   const { isLoggedIn, setIsLoggedIn, setUserDetails } = useAuth();
@@ -43,6 +44,7 @@ function Home() {
           </div>
         </div>
       </nav>
+      
 
       <div>
         <div className="flex flex-col h-screen items-center justify-center px-4">
@@ -82,11 +84,10 @@ function Home() {
           {message !== "" && (
             <div className="flex flex-col items-center justify-center bg-white mt-16 p-6 rounded-2xl shadow-lg w-full max-w-sm">
               <p
-                className={`text-center font-semibold text-lg ${
-                  message.includes("Successfully")
+                className={`text-center font-semibold text-lg ${message.includes("Successfully")
                     ? "text-green-500"
                     : "text-red-500"
-                }`}
+                  }`}
               >
                 {message}
               </p>

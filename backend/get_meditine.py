@@ -61,6 +61,11 @@ def get_medical_data(extracted_text):
     - **Complete** with full details.
     - **Accurate** with proper structure.
     - **Well-formatted** with correct syntax.
+    *BID** → **Twice a day** (Every 12 hours)  
+  - **TID** → **Three times a day** (Every 8 hours)  
+  - **QD** → **Once a day**  
+  - **Tab** → **Tablet**
+    - give me the all name may be medicine so give me problaty of how mauct it may meditine name give in bracket()
     """
 
     data = {

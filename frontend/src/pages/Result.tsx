@@ -1,10 +1,10 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PrescriptionPDF from "../components/PrescriptionPdf";
 import { useState, useEffect } from "react";
 import { get_medicine_links, get_location } from "../api";
 import { InfinitySpin } from "react-loader-spinner";
-import { MapPin } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 function toSentenceCase(str: string) {
   if (!str) return ""; // Handle empty strings
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -298,6 +298,9 @@ const Result = () => {
               <strong>Route:</strong> {medicine.route}
             </p>
             <p className="text-gray-700">
+              <strong>Usage:</strong> {medicine.detail}
+            </p>
+            <p className="text-gray-700">
               <strong>Instructions:</strong> {medicine.special_instructions}
             </p>
 
@@ -369,7 +372,11 @@ const Result = () => {
           </div>
         ))}
       </div>
-
+      <div className="absolute bottom-15 right-10 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition">
+        <Link to="/chatAI">
+          <MessageCircle size={30} />
+        </Link>
+      </div>
       {/* Find nearby locations */}
       <button
         className="mt-6 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition self-center"
@@ -418,6 +425,7 @@ const Result = () => {
                 </a>
               </div>
             ))}
+
           </div>
         )
       )}

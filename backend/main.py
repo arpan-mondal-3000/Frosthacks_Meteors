@@ -9,6 +9,7 @@ from get_locations import *
 from get_medicine_details import *
 from flask_cors import CORS
 from chatbort import * 
+from send_sms import *
 
 app = Flask(__name__)
 
@@ -72,7 +73,7 @@ def main():
                 trans_id = str(uuid.uuid4())
                 print("✅ Token found")
                 store_data(session=session, transaction_id=trans_id,
-                           jwt_token=jwt_token, site_content=data, image_path=image_filename)
+                        jwt_token=jwt_token, site_content=data, image_path=image_filename)
                 print("✅ data successfully stored in database")
 
             return jsonify({
@@ -126,9 +127,8 @@ def get_meditine_details():
         print(med_details)
         return jsonify({"detail": med_details}), 200
 
-    # get location
 
-
+# get location
 @app.route('/get_location', methods=['POST'])
 def get_location():
     if ("latitude" in request.form) and ("longitude" in request.form):
@@ -139,23 +139,43 @@ def get_location():
         return jsonify({"location": location}), 200
     else:
         return jsonify({"error": "No location data provided"}), 400
-    
 
-    # 
+
+# send msg
+@app.route('/send_msg',methods=["POST"])
+def send_msg():
+    if ("msg" in request.form) and ("num" in request.form):
+        msg = str(request.form["msg"])
+        num = str(request.form["num"])
+        sendMsg(msg=msg,to_num=num)
+        # send msg to user
+        return jsonify({"response": "msg send succesfully"}), 200
+    else:
+        return jsonify({"error": "No msg data provided"}), 400
+
+
+# a chat with ai
 @app.route('/ai_chat', methods=['POST'])
 def ai_chat():
-    if "text" in request.form:
-        text = str(request.form["text"])
-        # lode meditine_naame.json
-        with open('output/medicine_name.json', 'r') as f:
-            med_name = f.read()
-            print(med_name)
-            # load medicine_details.json
-        response = ai_response(medical_data=med_name,query=text)
+    try:
+        data = request.get_json()  # Ensure JSON input is read properly
+        if not data or "text" not in data:
+            return jsonify({"error": "No text data provided"}), 400
 
-        return jsonify({"response": response}), 200
-    else:
-        return jsonify({"error": "No text data provided"}), 400
+        user_text = data["text"]
+
+        # Load medicine_name.json as a string
+        with open('output/medicine_name.json', 'r') as f:
+            med_name = f.read()  # Read as plain text
+
+        # Call AI response function (assuming it returns a string)
+        response = ai_response(medical_data=med_name, query=user_text)
+
+        return jsonify({"response": response}), 200  # Wrap response in JSON format
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 
 

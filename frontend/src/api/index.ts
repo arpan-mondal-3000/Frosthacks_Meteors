@@ -1,5 +1,33 @@
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
 
+
+export const fetchAIResponse = async (message: string): Promise<string> => {
+  try {
+    console.log("Sending message to AI:", message);
+
+    const response = await fetch(`${SERVER_URL}/ai_chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message }), // Send as JSON
+    });
+
+    console.log("Server Response Status:", response.status);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to fetch AI response");
+    }
+
+    const data = await response.json(); // AI returns a string wrapped in JSON
+    console.log("AI Response:", data.response);
+    return data.response;  // Extract response from JSON
+  } catch (error) {
+    console.error("Error fetching AI response:", error);
+    return "Error: AI is unavailable.";
+  }
+};
+
+
 async function get_medicine_names(image: File, token?: string){
     const formData = new FormData();
     formData.append("image", image);
