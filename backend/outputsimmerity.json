@@ -1,0 +1,9 @@
+{
+    "input_medicine": "Oxprelol",
+    "generic_name": "<Generic Name>",
+    "brand_names": [
+        "<Brand Name 1>",
+        "<Brand Name 2>",
+        "<Brand Name 3>"
+    ]
+}

@@ -18,7 +18,21 @@ export const fetchMedicineDetails = async (medicineName: string) => {
   }
 };
 
-
+export const fetchGenericName = async (name : string) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    const response = await fetch(`${SERVER_URL}/generic_name_search`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    return data.results;
+  }catch(err){
+    console.error(err);
+    throw err;
+  }
+}
 
 
 export const fetchAIResponse = async (message: string): Promise<string> => {
@@ -48,11 +62,14 @@ export const fetchAIResponse = async (message: string): Promise<string> => {
 };
 
 
-async function get_medicine_names(image: File, token?: string){
+async function get_medicine_names(image: File, token?: string, phoneNumber?:string){
     const formData = new FormData();
     formData.append("image", image);
     if(token){
         formData.append("token", token);
+    }
+    if(phoneNumber){
+      formData.append("num", phoneNumber);
     }
     try {
       const response = await fetch(`${SERVER_URL}/get_medicine_names`, {

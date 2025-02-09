@@ -1,4 +1,4 @@
-from get_meditine import *
+from get_medicine import *
 
 
 # Flask backend server
