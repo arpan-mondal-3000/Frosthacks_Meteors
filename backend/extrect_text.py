@@ -1,5 +1,5 @@
 from get_medicine import *
-
+import chardet
 
 # Flask backend server
 from flask import Flask, request, jsonify
@@ -26,9 +26,9 @@ CORS(app)  # Allowing all origins TODO: remove in production
 
 
 def extrect_text(file):
-    print("✅ extrect_text call successfully")
-    # sample document
-    # formUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/read.png"
+    # print("✅ extrect_text call successfully")
+    # # sample document
+    # # formUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/rest-api/read.png"
 
     client = DocumentIntelligenceClient(
         endpoint=endpoint, credential=AzureKeyCredential(key)
@@ -40,10 +40,20 @@ def extrect_text(file):
     result: AnalyzeResult = poller.result()
     # print(result.content)
 
+    text = result.content.encode("utf-8", errors="replace").decode("utf-8")
     with open("output/result_content.txt", "w") as output_file:
-        output_file.write(result.content)
+        output_file.write(text)
         output_file.close()
 
-    data=get_medical_data(result.content)
+    with open("output/result_content.txt","rb") as f:
+        raw_data = f.read()
+        result = chardet.detect(raw_data)
+        encoding = result["encoding"]
+    text = raw_data.decode(encoding, errors="replace") 
+    # print(text)
+
+
+    data = get_medical_data(text)  # Convert bytes to string before passing
+
 
     return data

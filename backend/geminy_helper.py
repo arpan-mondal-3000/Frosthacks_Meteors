@@ -29,10 +29,10 @@ def AI_FILTER(prompt):
     except Exception as e:
         return f"Error: {str(e)}"
 
-if __name__ == "__main__":
-    # Input JSON for medicine optimization
-    with open("\output\medicine_name.json","r") as r:
-        medicines_data = json.load(r)
+# if __name__ == "__main__":
+#     # Input JSON for medicine optimization
+#     with open("\output\medicine_name.json","r") as r:
+#         medicines_data = json.load(r)
 
     # medicines_data = {
     #     "medicines": [

@@ -63,19 +63,26 @@ def main():
             image.save(image_filename)
 
             # Reset the file pointer to read image bytes
-            img.seek(0)
-            file_bytes = img.read()
+            # img.seek(0)
+            # file_bytes = img.read()
+            # reade ingae
+            with open(image_filename, "rb") as image_file:
+                file_bytes = image_file.read()
 
             # Extract text from the image
             data = extrect_text(file_bytes)
             print("✅ extrected text found")
 
 
-            print(data)
-            for i in data["medicines"]:
-                # print(i)
-                i["websites"] = []
-
+            # print(data)
+            try:
+                
+                for i in data["medicines"]:
+                    # print(i)
+                    
+                        i["websites"] = []
+            except:
+                data["medicines"] = []
 
             if "number" in request.form:
                 num = request.form["number"]
