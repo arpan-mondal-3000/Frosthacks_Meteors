@@ -10,7 +10,6 @@
       "special_instructions": "To be taken as a preventive measure, alongside social distancing, hand hygiene, and wearing a mask, as per ICMR guidelines. Probably to be taken by contacts of COVID-19 positive cases showing mild symptoms."
     },
     {
-<<<<<<< HEAD
       "name": "Vitamin C (Medicine Name)",
       "dosage": "1 gram",
       "frequency": "Once a day",
@@ -54,24 +53,6 @@
       "route": "Oral",
       "purpose": "Cough Relief",
       "special_instructions": "Take three times a day to relieve cough symptoms; no specific instructions mentioned."
-=======
-      "name": "Digene",
-      "dosage": "Not specified",
-      "frequency": "Not specified",
-      "duration": "Not specified",
-      "route": "Not specified",
-      "purpose": "Not specified",
-      "special_instructions": "Not specified"
-    },
-    {
-      "name": "levothyroxine",
-      "dosage": "Not specified",
-      "frequency": "Not specified",
-      "duration": "Not specified",
-      "route": "Not specified",
-      "purpose": "Not specified",
-      "special_instructions": "Not specified"
->>>>>>> ca90c0502ee74336dfcf7ba4f43eab238c9cc4a3
     }
   ],
   "general_instructions": "As per ICMR guideline, the contacts of COVID tve cases should be put on HOME ISOLATION even with Mild Symptoms. It is advised that everybody takes these preventive medication apart from following SOCIAL DISTANCING, HAND HYGIENE & WEARING MASK"

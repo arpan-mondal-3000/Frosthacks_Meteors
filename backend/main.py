@@ -84,8 +84,8 @@ def main():
             except:
                 data["medicines"] = []
 
-            if "number" in request.form:
-                num = request.form["number"]
+            if "num" in request.form:
+                num = request.form["num"]
                 print("✅ Number found")
                 # Prompt for AI processing
                 prompt = f"extrect the time imformation from the following json data when we have to use this meditnine time when wehen we have to use this medicine ex: 8:00 am 12:00 pm 9:00 pm if any person day start ai 8:00 so say wich time we have to take meditine and you ect best of the give data json outout no additional value:\n{data}"
@@ -178,6 +178,7 @@ def get_location():
 @app.route('/send_msg', methods=["POST"])
 def send_msg():
     if ("msg" in request.form) and ("num" in request.form):
+
         msg = str(request.form["msg"])
         num = str(request.form["num"])
         sendMsg(msg=msg, to_num=num)
@@ -204,7 +205,7 @@ def generic_name_search():
 @app.route('/ai_chat', methods=['POST'])
 def ai_chat():
     try:
-        data = request.get_json()  # Ensure JSON input is read properly
+        data = request.form  # Ensure JSON input is read properly
         if not data or "text" not in data:
             return jsonify({"error": "No text data provided"}), 400
 
@@ -213,6 +214,7 @@ def ai_chat():
         # Load medicine_name.json as a string
         with open('output/medicine_name.json', 'r') as f:
             med_name = f.read()  # Read as plain text
+            # print(med_name)
 
         # Call AI response function (assuming it returns a string)
         response = ai_response(medical_data=med_name, query=user_text)
