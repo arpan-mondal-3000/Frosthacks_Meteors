@@ -1,59 +1,68 @@
 {
   "medicines": [
     {
-      "name": "Hydroxychloroquine (Probably a Medicine Name)",
-      "dosage": "400mg",
-      "frequency": "Once a week",
-      "duration": "As needed",
-      "route": "Oral",
-      "purpose": "Preventive medication against COVID-19, based on ICMR guidelines for contacts of positive cases.",
-      "special_instructions": "To be taken as a preventive measure, alongside social distancing, hand hygiene, and wearing a mask, as per ICMR guidelines. Probably to be taken by contacts of COVID-19 positive cases showing mild symptoms."
+      "name": "Nicardia R (Medicine Name Probability: High)",
+      "dosage": "20 (Dosage Details: Likely mg, though unit is not specified)",
+      "frequency": "Unspecified (Frequency details: til - May be abbreviation for 'till', which doesn't indicate frequency)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Oral (Route details: Generally assumed for tablets unless specified otherwise)",
+      "purpose": "Hypertension (Purpose details: Nicardia is commonly used to treat hypertension)",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
     },
     {
-      "name": "Vitamin C (Medicine Name)",
-      "dosage": "1 gram",
-      "frequency": "Once a day",
-      "duration": "As needed",
-      "route": "Oral",
-      "purpose": "Immune support and general health.",
-      "special_instructions": "Take daily for general well-being; no specific instructions mentioned."
+      "name": "Jasix (Medicine Name Probability: High)",
+      "dosage": "40 (Dosage Details: Likely mg, though unit is not specified)",
+      "frequency": "Unspecified (Frequency details: ks - Unclear abbreviation, needs clarification)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Oral (Route details: Generally assumed for tablets unless specified otherwise)",
+      "purpose": "Unspecified (Purpose details: Further details are needed)",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
     },
     {
-      "name": "Zinc (Medicine Name)",
-      "dosage": "50mg",
-      "frequency": "Once a day",
-      "duration": "As needed in case of fever",
-      "route": "Oral",
-      "purpose": "Immune support and to alleviate fever symptoms",
-      "special_instructions": "Take daily in case of fever symptoms; no specific instructions mentioned."
+      "name": "Rantac (Medicine Name Probability: High)",
+      "dosage": "150 (Dosage Details: Likely mg, though unit is not specified)",
+      "frequency": "Unspecified (Frequency details: BA - Unclear abbreviation, needs clarification)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Oral (Route details: Generally assumed for tablets unless specified otherwise)",
+      "purpose": "Acid reflux/GERD (Purpose details: Rantac (ranitidine) is an H2 receptor antagonist used to reduce stomach acid production)",
+      "special_instructions": "Take as directed by your doctor (Special Instructions: Follow doctor's instructions)"
     },
     {
-      "name": "Crocin/Calpol (Medicine Name)",
-      "dosage": "650mg",
-      "frequency": "As needed (SOS)",
-      "duration": "As needed",
-      "route": "Oral",
-      "purpose": "Fever, headache and pain relief.",
-      "special_instructions": "Take only when required for fever or pain symptoms."
+      "name": "Emesel (Medicine Name Probability: Medium)",
+      "dosage": "Unspecified (Dosage Details: Ave #8 indicates administration details related to Avenue, so not dosage.)",
+      "frequency": "Unspecified (Frequency details: Depends on dosage)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Unspecified (Route details: Need more information)",
+      "purpose": "Unspecified (Purpose details: Usually to stop nausea)",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
     },
     {
-      "name": "Cetirizine (Medicine Name)",
-      "dosage": "10mg",
-      "frequency": "Once a day",
-      "duration": "As needed",
-      "route": "Oral",
-      "purpose": "Allergy relief (antihistamine).",
-      "special_instructions": "Take once daily for allergy symptoms; no specific instructions mentioned."
+      "name": "Aulin (Medicine Name Probability: High)",
+      "dosage": "100 (Dosage Details: Likely mg, though unit is not specified)",
+      "frequency": "Unspecified (Frequency details: Needs more information)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Oral (Route details: Generally assumed for tablets unless specified otherwise)",
+      "purpose": "Pain relief and anti-inflammatory (Purpose details: Aulin (nimesulide) is a nonsteroidal anti-inflammatory drug (NSAID))",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
     },
     {
-      "name": "Alex (Medicine Name)",
-      "dosage": "2/3 Teaspoon",
-      "frequency": "Three times a day (Every 8 hours)",
-      "duration": "As needed",
-      "route": "Oral",
-      "purpose": "Cough Relief",
-      "special_instructions": "Take three times a day to relieve cough symptoms; no specific instructions mentioned."
+      "name": "Noloin (Medicine Name Probability: Medium)",
+      "dosage": "Unspecified (Dosage Details: Need More Information)",
+      "frequency": "Unspecified (Frequency details: IBA. is unclear, needs clarification)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Unspecified (Route details: Need more information)",
+      "purpose": "Unspecified (Purpose details: Need More Information)",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
+    },
+    {
+      "name": "Douban (Medicine Name Probability: Low)",
+      "dosage": "Unspecified (Dosage Details: Lbs is weight, but not dosage)",
+      "frequency": "Unspecified (Frequency details: Needs more information)",
+      "duration": "Unspecified (Duration details: Need more information)",
+      "route": "Unspecified (Route details: Need more information)",
+      "purpose": "Unspecified (Purpose details: Further details are needed)",
+      "special_instructions": "Consult physician (Special Instructions: Follow doctor's instructions)"
     }
   ],
-  "general_instructions": "As per ICMR guideline, the contacts of COVID tve cases should be put on HOME ISOLATION even with Mild Symptoms. It is advised that everybody takes these preventive medication apart from following SOCIAL DISTANCING, HAND HYGIENE & WEARING MASK"
+  "general_instructions": "Follow your doctor's instructions carefully. If any side effects persist or worsen, consult your doctor."
 }

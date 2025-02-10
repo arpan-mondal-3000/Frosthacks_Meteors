@@ -178,7 +178,9 @@ const demoLocationdata = {
 };
 
 const Result = () => {
-  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>({});
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [isLoadingLinks, setIsLoadingLinks] = useState(false);
   const [isLoadingLocations, setIsLoadingLocations] = useState(false);
@@ -205,20 +207,20 @@ const Result = () => {
     setMedicineData(data);
   }, [data]);
 
-
-
   const demoData = {
-    "detail": {
-      "active_ingredient": "Active ingredient Paracetamol 160 mg",
-      "definition": [
-        "L-Oral PARACETAMOL Syrup Paracetamol METHYLPARABEN PROPYLPARABEN POTASSIUM SORBATE CITRIC ACID MONOHYDRATE SORBITOL PROPYLENE GLYCOL SUCRALOSE POVIDONE K30 GLYCERIN FD&C RED NO. 40 D&C RED NO. 33 WATER ACETAMINOPHEN ACETAMINOPHEN"
+    detail: {
+      active_ingredient: "Active ingredient Paracetamol 160 mg",
+      definition: [
+        "L-Oral PARACETAMOL Syrup Paracetamol METHYLPARABEN PROPYLPARABEN POTASSIUM SORBATE CITRIC ACID MONOHYDRATE SORBITOL PROPYLENE GLYCOL SUCRALOSE POVIDONE K30 GLYCERIN FD&C RED NO. 40 D&C RED NO. 33 WATER ACETAMINOPHEN ACETAMINOPHEN",
       ],
-      "medicine_name": "paracetamol",
-      "side_effects": "Not Available",
-      "usage": "USES Temporarily relieves minor aches and pains due to: • The common cold • Flu • Headache • Sore throat • Toothache • Temporarily reduces fever",
-      "warnings": "WARNINGS Liver warning: This product contains acetaminophen. Severe liver damage may occur if your child takes: • More than 5 doses in 24 hours, which is the maximum daily amount • With other drugs containing acetaminophen Allergy alert: acetaminophen may cause severe skin reactions. Symptoms may include: • Skin reddening • Blisters • Rash If a skin reaction occurs, stop use and seek medical help right away. Sore throat warning: If sore throat is severe, persists for more than 2 days, is accompanied or followed by fever, headache, rash, nausea, or vomiting, consult a doctor promptly. Do not use • With any other product containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist • If your child is allergic to acetaminophen or any of the inactive ingredients in this product Ask a doctor before use if your child has liver disease Ask a doctor or pharmacist before use if your child is taking the blood thinning drug warfarin When using this product, do not exceed recommended dose (see overdose warning) Stop use and ask a doctor if • Pain gets worse or last for more than 5 days • Fever gets worse or last for more than 3 days • New symptoms occur • Redness or swelling is present These could be signs of a serious condition. Keep out of the reach of children. Overdose warning: Taking more than the recommended dose (overdose) may cause liver damage. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away. Quick medical attention is critical for adults as well as children even if you do not notice any signs or symptoms."
-    }
-  }
+      medicine_name: "paracetamol",
+      side_effects: "Not Available",
+      usage:
+        "USES Temporarily relieves minor aches and pains due to: • The common cold • Flu • Headache • Sore throat • Toothache • Temporarily reduces fever",
+      warnings:
+        "WARNINGS Liver warning: This product contains acetaminophen. Severe liver damage may occur if your child takes: • More than 5 doses in 24 hours, which is the maximum daily amount • With other drugs containing acetaminophen Allergy alert: acetaminophen may cause severe skin reactions. Symptoms may include: • Skin reddening • Blisters • Rash If a skin reaction occurs, stop use and seek medical help right away. Sore throat warning: If sore throat is severe, persists for more than 2 days, is accompanied or followed by fever, headache, rash, nausea, or vomiting, consult a doctor promptly. Do not use • With any other product containing acetaminophen (prescription or nonprescription). If you are not sure whether a drug contains acetaminophen, ask a doctor or pharmacist • If your child is allergic to acetaminophen or any of the inactive ingredients in this product Ask a doctor before use if your child has liver disease Ask a doctor or pharmacist before use if your child is taking the blood thinning drug warfarin When using this product, do not exceed recommended dose (see overdose warning) Stop use and ask a doctor if • Pain gets worse or last for more than 5 days • Fever gets worse or last for more than 3 days • New symptoms occur • Redness or swelling is present These could be signs of a serious condition. Keep out of the reach of children. Overdose warning: Taking more than the recommended dose (overdose) may cause liver damage. In case of overdose, get medical help or contact a Poison Control Center (1-800-222-1222) right away. Quick medical attention is critical for adults as well as children even if you do not notice any signs or symptoms.",
+    },
+  };
   const handleUsage = async (e: any) => {
     const medName = e.currentTarget.name; // Medicine name
     const medIndex = Number(e.target.id); // Index of the medicine
@@ -257,7 +259,6 @@ const Result = () => {
       setUsageDropdown(false);
     }
   };
-
 
   const handleMedicineLinks = async (e: any) => {
     if (e.target.id && e.target.name) {
@@ -311,7 +312,7 @@ const Result = () => {
   const handleGenericNameSearch = (e: any) => {
     setShowGenericName(true);
     setGenericMedicineName(e.target.name);
-  }
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -336,7 +337,13 @@ const Result = () => {
         There was a problem, please try again!
       </div>
     );
-  else if(showGenericName) return <GenericName medicineName={genericMedicineName} setShowGenericName={setShowGenericName} />
+  else if (showGenericName)
+    return (
+      <GenericName
+        medicineName={genericMedicineName}
+        setShowGenericName={setShowGenericName}
+      />
+    );
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex flex-col gap-6">
       <span className="bg-white p-4 rounded-xl shadow-md text-gray-800 text-center font-bold text-3xl">
@@ -461,7 +468,13 @@ const Result = () => {
                 {errorMessage[medicine.name]}
               </div>
             )}
-            <button className="" name={medicine.name} onClick={handleGenericNameSearch}>Generic name search</button>
+            <button
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out my-2"
+              name={medicine.name}
+              onClick={handleGenericNameSearch}
+            >
+              Generic name search
+            </button>
           </div>
         ))}
       </div>

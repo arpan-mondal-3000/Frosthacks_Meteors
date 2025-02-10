@@ -32,7 +32,9 @@ Session = initialize_db()
 session = Session()
 
 # get medicine name from image
-
+@app.route('/')
+def index():
+    return "Hello, World!"
 
 @app.route('/get_medicine_names', methods=['POST', 'GET'])
 def main():
@@ -73,14 +75,13 @@ def main():
             data = extrect_text(file_bytes)
             print("✅ extrected text found")
 
-
             # print(data)
             try:
-                
+
                 for i in data["medicines"]:
                     # print(i)
-                    
-                        i["websites"] = []
+
+                    i["websites"] = []
             except:
                 data["medicines"] = []
 
@@ -89,25 +90,23 @@ def main():
                 print("✅ Number found")
                 # Prompt for AI processing
                 prompt = f"extrect the time imformation from the following json data when we have to use this meditnine time when wehen we have to use this medicine ex: 8:00 am 12:00 pm 9:00 pm if any person day start ai 8:00 so say wich time we have to take meditine and you ect best of the give data json outout no additional value:\n{data}"
-                num=str(num)
+                num = str(num)
                 # Get AI response
                 msg = AI_FILTER(prompt)
                 print("✅ AI response found")
-                msg=str(msg)
+                msg = str(msg)
                 # msg="radhe radhe"
-                sendMsg(msg=msg,to_num=num)
+                sendMsg(msg=msg, to_num=num)
                 print(f"✅ sms successfully sent in {num}")
-
-
-
 
             if "token" in request.form:
                 jwt_token = request.form["token"]
-                trans_id = str(uuid.uuid4())
-                print("✅ Token found")
-                store_data(session=session, transaction_id=trans_id,
-                        jwt_token=jwt_token, site_content=data, image_path=image_filename)
-                print("✅ data successfully stored in database")
+                if jwt_token != "":
+                    trans_id = str(uuid.uuid4())
+                    print("✅ Token found")
+                    store_data(session=session, transaction_id=trans_id,
+                            jwt_token=jwt_token, site_content=data, image_path=image_filename)
+                    print("✅ data successfully stored in database")
 
             return jsonify({
                 "data": data
@@ -177,11 +176,20 @@ def get_location():
 # send msg
 @app.route('/send_msg', methods=["POST"])
 def send_msg():
-    if ("msg" in request.form) and ("num" in request.form):
-
-        msg = str(request.form["msg"])
-        num = str(request.form["num"])
-        sendMsg(msg=msg, to_num=num)
+    # print(request.form)
+    if"num" in request.form:
+        # num = str(request.form["num"])
+        # print("✅ Number found")
+        # # Prompt for AI processing
+        # prompt = f"extrect the time imformation from the following json data when we have to use this meditnine time when wehen we have to use this medicine ex: 8:00 am 12:00 pm 9:00 pm if any person day start ai 8:00 so say wich time we have to take meditine and you ect best of the give data json outout no additional value:\n{data}"
+        # num = str(num)
+        # # Get AI response
+        # msg = AI_FILTER(prompt)
+        # print("✅ AI response found")
+        # msg = str(msg)
+        # # msg="radhe radhe"
+        # sendMsg(msg=msg, to_num=num)
+        # print(f"✅ sms successfully sent in {num}")
         # send msg to user
         return jsonify({"response": "msg send succesfully"}), 200
     else:
@@ -190,45 +198,45 @@ def send_msg():
 
 @app.route('/generic_name_search', methods=['POST'])
 def generic_name_search():
+
     try:
         if "name" in request.form:
             name = str(request.form["name"])
             # Call function to search for generic name
-            results=get_medicine_data(medicine_name=name)
+            results = get_medicine_data(medicine_name=name)
             return jsonify({"results": results}), 200
         else:
             return jsonify({"error": "No name data provided"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# a chat with ai
-@app.route('/ai_chat', methods=['POST'])
+
+@app.route('/ai_chat', methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
 def ai_chat():
+    # return "radhe radhe"
     try:
-        data = request.form  # Ensure JSON input is read properly
+        data = request.form  # Use JSON input instead of form data
+        print(data)
         if not data or "text" not in data:
             return jsonify({"error": "No text data provided"}), 400
 
         user_text = data["text"]
+        print(user_text)
 
         # Load medicine_name.json as a string
         with open('output/medicine_name.json', 'r') as f:
             med_name = f.read()  # Read as plain text
-            # print(med_name)
 
-        # Call AI response function (assuming it returns a string)
+        # Call AI response function
         response = ai_response(medical_data=med_name, query=user_text)
 
-        # Wrap response in JSON format
         return jsonify({"response": response}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    
-
-
 
 if __name__ == '__main__':
     # Run the Flask app in debug mode
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8000)
+

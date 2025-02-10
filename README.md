@@ -3,6 +3,9 @@
 ### FrostHacks S01 - Team Meteors
 ### 🔗[Website Link](https://frosthacks-meteors-two.vercel.app/)
 
+🔗[Demo Video](https://youtu.be/70VapcBhH-I?si=aTMZUAw4WnI6SQcO)
+🔗[Pitch Video](https://youtu.be/ne8285U46rU?si=H7NAfipGKGZPK0aZ)
+
 ## 🚀 Introduction
 
 Patients often struggle to decipher handwritten prescriptions, verify their authenticity, and compare medicine prices across different platforms. As a result, they may end up paying higher prices or even misinterpreting medication details, which can be dangerous.

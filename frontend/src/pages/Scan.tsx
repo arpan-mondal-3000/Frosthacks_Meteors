@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 // API
-import { get_medicine_names } from "../api";
+import { get_medicine_names, send_number } from "../api";
 
 // const demoData = {
 //   data: {
@@ -67,10 +67,6 @@ function Scan() {
   };
 
   const handleSubmit = async (e: any) => {
-    // if (e.target.textContent === "Ok" && phoneNumber !== "") {
-    //   console.log("Submitting phone number: ", phoneNumber);
-    //   await send_number(phoneNumber);
-    // }
     console.log("Submitting Image");
     console.log(image);
     setIsLoading(true);
@@ -80,16 +76,30 @@ function Scan() {
     const file = new File([blob], "prescription.png", { type: "image/png" });
     let data;
     try {
-      if (isLoggedIn) data = await get_medicine_names(file, userDetails?.token);
-      else if (phoneNumber !== "" && e.target.textContent === "Ok")
-        data = await get_medicine_names(file, phoneNumber);
+      if (isLoggedIn && phoneNumber.length >= 10 && e.target.textContent === "Ok"){
+        console.log("Submitting phone number  ", phoneNumber," image and not sending token");
+        data = await get_medicine_names(file, userDetails?.token, phoneNumber);}
+      else if (isLoggedIn){
+        console.log("Submitting Image and sending token");
+        data = await get_medicine_names(file, userDetails?.token);}
       else if (
-        phoneNumber !== "" &&
-        e.target.textContent === "Ok" &&
-        isLoggedIn
+        !isLoggedIn &&
+        phoneNumber.length >= 10 &&
+        e.target.textContent === "Ok"
       )
-        data = await get_medicine_names(file, userDetails?.token, phoneNumber);
+        {
+          console.log("Submitting phone number  not  send token ", phoneNumber);
+          data = await get_medicine_names( file,"", phoneNumber);
+          console.log("radhe radhde");
+        }
+      else {
+        console.log("Submitting Image not sending token");
+        data = await get_medicine_names(file);}
       console.log("Response:", data);
+      // if (e.target.textContent === "Ok" && phoneNumber !== "") {
+      //   console.log("Submitting phone number: ", phoneNumber);
+      //   await send_number(phoneNumber);
+      // }
       setNavbar(true);
       setImage("");
       setIsLoading(false);
@@ -180,7 +190,7 @@ function Scan() {
                       />
                     )}
                     <input
-                      type="number"
+                      type="text"
                       placeholder="Your phone number"
                       className="border-2 border-gray-400 px-4 py-2 w-full rounded"
                       value={phoneNumber}
